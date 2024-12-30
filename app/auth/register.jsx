@@ -9,19 +9,21 @@ import {
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import { getServerUrl } from "../../constants/api";
+import axios from "axios";
 
 const Register = () => {
+  const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = () => {
+  async function handleSubmit() {
     if (!fullName || !phoneNumber || !password || !confirmPassword) {
       setError("Please fill out all fields");
       return;
@@ -32,29 +34,45 @@ const Register = () => {
     }
     setError("");
 
-    fetch(`${getServerUrl()}/user/register`, {
-      method: "POST",
+    const api = getServerUrl();
+
+    let data = JSON.stringify({
+      fullName: fullName,
+      phone: phoneNumber,
+      password: password,
+    });
+
+    let config = {
+      method: "post",
+      url: `${api}/user/register`,
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        fullName: fullName,
-        phone: phoneNumber,
-        password: password,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          setError(data.error);
-          setError(data.error.message);
-        } else {
-          setError("Account created successfully. Please log in.");
-        }
-      })
-      .catch((err) => {
+      data: data,
+    };
+    
+    try {
+
+      let response = await axios(config);
+
+      if (response.status === 201) {
+        router.push("../(tabs)/new-note");
+      } else {
+        setError(
+          response.data.message || "An error occurred. Please try again later."
+        );
+      }
+      
+    } catch (error) {
+      
+      if (error.response) {
+        setError(error.response.data.message); 
+      } else {
         setError("An error occurred. Please try again later.");
-      });
+      }
+      
+    }
+   
   };
 
   return (

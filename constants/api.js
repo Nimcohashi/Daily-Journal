@@ -1,3 +1,3 @@
 export function getServerUrl() {
-  return "";
+  return "http://192.168.1.100:80";
 }

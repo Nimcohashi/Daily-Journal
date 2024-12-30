@@ -56,7 +56,7 @@ const Login = () => {
       }
     } catch (error) {
       // Handle any network or server errors that occur
-      if (error.response && error.response.status === 400) {
+      if (error.response) {
         setError(error.response.data.message); // Display the specific error from the server
       } else {
         setError("An error occurred. Please try again later.");
