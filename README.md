@@ -28,11 +28,37 @@ Before setting up this project, ensure that you have the following installed on 
    ```bash
    cd backend
    ```
-2. Install the required packages for the backend:
+2. **Rename the `.env.example` file to `.env`.**
+
+3. Open the newly created `.env` file and add the following configurations:
+   - Set the server port:
+     ```env
+     PORT=your_port_number
+     ```
+   - Get your MongoDB connection string from [MongoDB Atlas](https://cloud.mongodb.com/v2#/preferences/organizations) and add it as follows:
+     ```env
+     MONGO_URI=your_connection_string
+     ```
+   - Add a random string for the JWT secret(You can type some random character e.g. `ijsiajdz39qj33dasenw93kdow3`):
+     ```env
+     JWT_SECRET=some_random_characters,
+     ```
+
+4. Install the required packages for the backend:
    ```bash
    npm install
    ```
-3. Start the backend server. You can choose one of the following commands:
+
+5. Navigate to the `constants` folder and open `api.js`. Update the return statement to include your PC's local IP with the port you assigned in the `.env` file:
+   ```javascript
+   // Example of what to change
+   export function getServerUrl() {
+      return ""; // change here
+   }
+   ```
+   the PORT is the number you assigned in the `.env` inside the `backend` folder. For Example `http://192.168.1.100:80`
+
+7. Start the backend server. You can choose one of the following commands:
    - If you want to use `nodemon` (make sure it's installed globally):
      ```bash
      nodemon index.js
