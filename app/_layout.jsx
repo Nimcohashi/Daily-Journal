@@ -28,7 +28,7 @@ const RootLayoutContent = () => {
 
   return (
     <Stack>
-      <Stack.Screen name="(tabs)/" options={{ headerShown: false }} />
+      <Stack.Screen name="(notes)" options={{ headerShown: false }} />
       <Stack.Screen name="auth/login" options={{ headerShown: false }} />
       <Stack.Screen name="auth/register" options={{ headerShown: false }} />
       <Stack.Screen name="auth/getting-started" options={{ headerShown: false }} />

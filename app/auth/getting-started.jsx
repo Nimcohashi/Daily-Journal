@@ -3,8 +3,6 @@ import { StatusBar } from "expo-status-bar";
 import { Text, View, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
-import { useRouter } from "expo-router";
-
 
 const GettingStarted = () => {
   return (

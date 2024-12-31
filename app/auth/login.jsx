@@ -51,7 +51,7 @@ const Login = () => {
      
       if (response.status === 200) {
         signIn(response.data.token);
-        router.push("../(tabs)");
+        router.push("../(notes)");
       
       } else {
         setError(

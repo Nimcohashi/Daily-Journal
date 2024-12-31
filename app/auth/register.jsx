@@ -14,8 +14,10 @@ import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import { getServerUrl } from "../../constants/api";
 import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 
 const Register = () => {
+   const { signIn } = React.useContext(AuthContext);
   const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -56,7 +58,8 @@ const Register = () => {
       let response = await axios(config);
 
       if (response.status === 201) {
-        router.push("../(tabs)/new-note");
+        signIn(response.data.token);
+        router.push("../(notes)");
       } else {
         setError(
           response.data.message || "An error occurred. Please try again later."
