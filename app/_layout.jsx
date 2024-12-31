@@ -1,14 +1,39 @@
-import React from "react";
-import { Stack } from "expo-router";
-import "../global.css";
+import React, { useContext, useEffect } from "react"
+import { Stack, useRouter } from "expo-router"
+import "../global.css"
+import { AuthProvider, AuthContext } from "./context/AuthContext"
+
 const RootLayout = () => {
   return (
+    <AuthProvider>
+      <RootLayoutContent />
+    </AuthProvider>
+  )
+}
+
+const RootLayoutContent = () => {
+  const { token, isLoading } = useContext(AuthContext)
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!isLoading && !token) {
+      router.replace("auth/getting-started");
+    }
+  }, [token, isLoading])
+
+  if (isLoading) {
+    // Show a loading screen or spinner
+    return null
+  }
+
+  return (
     <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="(tabs)/" options={{ headerShown: false }} />
       <Stack.Screen name="auth/login" options={{ headerShown: false }} />
       <Stack.Screen name="auth/register" options={{ headerShown: false }} />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="auth/getting-started" options={{ headerShown: false }} />
     </Stack>
-  );
-};
-export default RootLayout;
+  )
+}
+
+export default RootLayout

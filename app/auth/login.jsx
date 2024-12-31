@@ -12,8 +12,10 @@ import { StatusBar } from "expo-status-bar";
 import { getServerUrl } from "../../constants/api";
 import { Link, useRouter } from "expo-router";
 import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
+  const { signIn } = React.useContext(AuthContext);
   const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
@@ -45,9 +47,11 @@ const Login = () => {
 
       let response = await axios(config);
 
+      console.log(response.data.token);
      
       if (response.status === 200) {
-        router.push("../(tabs)/new-note");
+        signIn(response.data.token);
+        router.push("../(tabs)");
       
       } else {
         setError(

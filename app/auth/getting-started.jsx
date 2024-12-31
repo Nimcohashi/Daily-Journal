@@ -1,14 +1,17 @@
+import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { Text, View, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
+import { useRouter } from "expo-router";
 
-export default function App() {
+
+const GettingStarted = () => {
   return (
     <SafeAreaView>
       <View className=" bg-white flex flex-col items-center justify-between h-screen py-5">
         <Image
-          source={require("../assets/notes.png")}
+          source={require("../../assets/notes.png")}
           style={{ width: 300, height: 300 }}
           resizeMode="contain"
           className="mt-32"
@@ -46,4 +49,6 @@ export default function App() {
       </View>
     </SafeAreaView>
   );
-}
+};
+
+export default GettingStarted;
