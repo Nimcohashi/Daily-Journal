@@ -3,6 +3,7 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Note from "../../components/note";
 import { StatusBar } from "expo-status-bar";
+import { Link } from "expo-router";
 
 const sampleNotes = [
   {
@@ -72,12 +73,13 @@ const Home = () => {
               updatedAt={new Date(note.updatedAt).toLocaleString()}
               onDeletePress={() => console.log("Delete Pressed")}
               onEditPress={() => console.log("Edit Pressed")}
-              onNamePress={() => console.log("Name Pressed")}
+              onNotePress={() => console.log("Note Pressed")}
             />
           ))}
         </View>
       </ScrollView>
 
+      <Link href="/new-note" asChild>
       <TouchableOpacity
         className="absolute right-5 bottom-5 bg-white  rounded-full"
         style={{
@@ -93,6 +95,7 @@ const Home = () => {
           style={{ width: 60, height: 60 }}
         />
       </TouchableOpacity>
+      </Link>
 
       <StatusBar style="auto" />
     </SafeAreaView>

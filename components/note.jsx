@@ -6,14 +6,14 @@ const Note = ({
   details,
   onDeletePress,
   onEditPress,
-  onNamePress,
+  onNotePress,
   updatedAt,
 }) => {
   return (
     <View className="flex flex-col my-3 bg-yellow-50 p-4 rounded-3xl">
       {/* Notes content */}
       <View className="display flex flex-col mx-1 justify-between">
-        <TouchableOpacity onPress={onNamePress}>
+        <TouchableOpacity onPress={onNotePress}>
           <Text className="font-semibold text-xl text-gray-950">{name}</Text>
        
         <Text className="text-gray-950 font-normal text-justify my-2">
