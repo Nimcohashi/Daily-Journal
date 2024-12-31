@@ -1,14 +1,55 @@
-import { View, Text, ScrollView, Image } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Note from "../../components/note";
+import { StatusBar } from "expo-status-bar";
+
+const sampleNotes = [
+  {
+    _id: "676cf2dc4160fd8864e54606",
+    title: "Note 1",
+    content:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus reiciendis sunt ab! Ab, inventore quis! Quis eius dicta porro ipsa repellendus tenetur debitis, totam magni similique repudiandae impedit provident doloremque.",
+    createdBy: "676cf2dc4160fd8864e54606",
+    createdAt: "2024-12-26T06:08:28.400+00:00",
+    updatedAt: "2024-12-26T06:08:28.400+00:00",
+  },
+  {
+    _id: "676ce26f4160fd8864e545f9",
+    title: "Note 2",
+    content:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus reiciendis sunt ab! Ab, inventore quis! Quis eius dicta porro ipsa repellendus tenetur debitis, totam magni similique repudiandae impedit provident doloremque.",
+    createdBy: "676cf2dc4160fd8864e54606",
+    createdAt: "2024-12-26T06:08:28.400+00:00",
+    updatedAt: "2024-12-26T06:08:28.400+00:00",
+  },
+  {
+    _id: "676cf31c4160fd8864e5460a",
+    title: "Note 2",
+    content:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus reiciendis sunt ab! Ab, inventore quis! Quis eius dicta porro ipsa repellendus tenetur debitis, totam magni similique repudiandae impedit provident doloremque.",
+    createdBy: "676cf2dc4160fd8864e54606",
+    createdAt: "2024-12-26T06:08:28.400+00:00",
+    updatedAt: "2024-12-26T06:08:28.400+00:00",
+  },
+  {
+    _id: "676cf31c4160fd8864825460a",
+    title: "Note 2",
+    content:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus reiciendis sunt ab! Ab, inventore quis! Quis eius dicta porro ipsa repellendus tenetur debitis, totam magni similique repudiandae impedit provident doloremque.",
+    createdBy: "676cf2dc4160fd8864e54606",
+    createdAt: "2024-12-26T06:08:28.400+00:00",
+    updatedAt: "2024-12-26T06:08:28.400+00:00",
+  },
+];
 
 const Home = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView className="bg-white h-full">
       <ScrollView>
-        <View className=" bg-white flex flex-col p-5 h-screen">
+        <View className=" flex flex-col p-5">
           {/* Header */}
-          <View className=" flex flex-row justify-between p-5 bg-slate-200 rounded-3xl my-2">
+          <View className=" flex flex-row mb-5 justify-between p-5 bg-slate-200 rounded-3xl my-2">
             <View className=" flex flex-col justify-center">
               <Text className="text-xl text-gray-950 font-bold">User Name</Text>
               <Text className=" text-gray-950 ">+252 63 4566669</Text>
@@ -22,35 +63,38 @@ const Home = () => {
           </View>
 
           {/* Notes */}
-          <View className="flex flex-col my-10 bg-yellow-50 p-4 rounded-3xl">
-            {/* Notes content */}
-            <View className="display flex flex-col mx-1 justify-between">
-              <Text className=" font-semibold text-xl  text-gray-950">
-                Note Name
-              </Text>
-              <Text className=" text-gray-950 font-normal text-justify my-2">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi
-                nihil consequuntur, quam ullam aspernatur voluptatum ad qui
-                laboriosam veritatis debitis numquam, veniam unde esse eos sed
-                eum. Rem, laborum facere?
-              </Text>
-            </View>
-            {/* Notes button icons */}
-            <View className="flex flex-row justify-end">
-              <Image
-                source={require("../../assets/delete.png")}
-                style={{ width: 25, height: 25 }}
-                className="mx-2"
-              />
-              <Image
-                source={require("../../assets/edit.png")}
-                style={{ width: 25, height: 25 }}
-                className="mx-2"
-              />
-            </View>
-          </View>
+
+          {sampleNotes.map((note) => (
+            <Note
+              key={note._id}
+              name={note.title}
+              details={note.content}
+              updatedAt={new Date(note.updatedAt).toLocaleString()}
+              onDeletePress={() => console.log("Delete Pressed")}
+              onEditPress={() => console.log("Edit Pressed")}
+              onNamePress={() => console.log("Name Pressed")}
+            />
+          ))}
         </View>
       </ScrollView>
+
+      <TouchableOpacity
+        className="absolute right-5 bottom-5 bg-white  rounded-full"
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          width: 60,
+          height: 60,
+          elevation: 5,
+        }}
+      >
+        <Image
+          source={require("../../assets/plus.png")}
+          style={{ width: 60, height: 60 }}
+        />
+      </TouchableOpacity>
+
+      <StatusBar style="auto" />
     </SafeAreaView>
   );
 };
