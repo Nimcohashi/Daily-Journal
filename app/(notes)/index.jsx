@@ -56,10 +56,14 @@ const Home = () => {
               <Text className=" text-gray-950 ">+252 63 4566669</Text>
             </View>
             <View>
-              <Image
-                source={require("../../assets/user.png")}
-                style={{ width: 50, height: 50 }}
-              />
+              <Link href="/profile" asChild>
+                <TouchableOpacity>
+                  <Image
+                    source={require("../../assets/user.png")}
+                    style={{ width: 50, height: 50 }}
+                  />
+                </TouchableOpacity>
+              </Link>
             </View>
           </View>
 
@@ -80,21 +84,21 @@ const Home = () => {
       </ScrollView>
 
       <Link href="/new-note" asChild>
-      <TouchableOpacity
-        className="absolute right-5 bottom-5 bg-white  rounded-full"
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          width: 60,
-          height: 60,
-          elevation: 5,
-        }}
-      >
-        <Image
-          source={require("../../assets/plus.png")}
-          style={{ width: 60, height: 60 }}
-        />
-      </TouchableOpacity>
+        <TouchableOpacity
+          className="absolute right-5 bottom-5 bg-white  rounded-full"
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            width: 60,
+            height: 60,
+            elevation: 5,
+          }}
+        >
+          <Image
+            source={require("../../assets/plus.png")}
+            style={{ width: 60, height: 60 }}
+          />
+        </TouchableOpacity>
       </Link>
 
       <StatusBar style="auto" />
