@@ -10,7 +10,7 @@ const Heading = ({ title, onBackPress }) => {
         className=" bg-yellow-400 m-5 rounded-3xl justify-between flex flex-row p-5 "
       >
         <AntDesign name="arrowleft" size={25} color="white" />
-        <Text className="text-2xl text-white text-center font-bold">
+        <Text className="text-2xl text-white text-center shadow-orange-400 font-bold">
           {title}
         </Text>
         <Text> </Text>

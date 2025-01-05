@@ -59,9 +59,13 @@ const Home = () => {
     router.push("/note", { note });
   };
 
-  const handleEditPress = (note) => {
-    router.push("/edit-note", { note });
-  };
+const handleEditPress = (note) => {
+  router.push({
+    pathname: "/edit-note",
+    params: { note: JSON.stringify(note) },
+  });
+};
+
 
   const handleDeletePress = (note) => {
     const api = getServerUrl();
@@ -94,25 +98,21 @@ const Home = () => {
       <ScrollView>
         <View className=" flex flex-col p-5">
           {/* Header */}
-          <View className=" flex flex-row mb-5 justify-between p-5 bg-slate-200 rounded-3xl my-2">
-            <View className=" flex flex-col justify-center">
-              <Text className="text-xl text-gray-950 font-bold">
-                {user?.fullName}
-              </Text>
-              <Text className=" text-gray-950 ">{user?.phone}</Text>
-            </View>
-            <View>
-              <Link href="/profile" asChild>
-                <TouchableOpacity>
-                  <Image
-                    source={require("../../assets/user.png")}
-                    style={{ width: 50, height: 50 }}
-                  />
-                </TouchableOpacity>
-              </Link>
-            </View>
-          </View>
+          <Link href="/profile" asChild>
+            <TouchableOpacity className=" flex flex-row mb-5 justify-between p-5 bg-slate-200 rounded-3xl my-2">
+              <View className=" flex flex-col justify-center">
+                <Text className="text-xl text-gray-950 font-bold">
+                  {user?.fullName}
+                </Text>
+                <Text className=" text-gray-950 ">{user?.phone}</Text>
+              </View>
 
+              <Image
+                source={require("../../assets/user.png")}
+                style={{ width: 50, height: 50 }}
+              />
+            </TouchableOpacity>
+          </Link>
           {/* Notes */}
 
           {notes.map((note) => (
