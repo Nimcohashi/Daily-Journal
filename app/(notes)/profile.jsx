@@ -7,21 +7,51 @@ import {
   TextInput,
   Alert,
 } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { Link, useRouter } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Heading from "../../components/Heading";
 import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
+import { getServerUrl } from "../../constants/api";
 
 const Profile = () => {
-  const { signOut } = useContext(AuthContext);
+  const { signOut, token } = useContext(AuthContext);
+const router = useRouter();
+  const [user, setUser] = useState(null);
+
+  // fetch user data
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const api = getServerUrl();
+
+        let config = {
+          method: "get",
+          maxBodyLength: Infinity,
+          url: `${api}/user/fetch-user`,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const response = await axios.request(config);
+        setUser(response.data);
+        console.log(user)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchUser();
+  }, [token]);
 
   return (
     <SafeAreaView className="bg-white h-full">
       <ScrollView>
-        <Heading title="Profile" />
+        <Heading title="Profile"onBackPress={() => router.back()} />
 
         <View className="flex flex-col p-5">
           <View className="flex flex-col items-center">
@@ -31,13 +61,16 @@ const Profile = () => {
             />
             <View className="flex flex-col">
               <Text className="text-xl text-gray-950 font-bold text-center mt-4">
-                User Name
+                {user?.fullName}
               </Text>
               <Text className=" text-gray-950 text-center mt-2">
-                +252 63 4566669
+                {user?.phone}
               </Text>
               <Text className=" text-gray-950 text-center mt-2">
-                Registered on{" "}
+                {user &&
+                  `Registered on ${new Date(
+                    user.createdAt
+                  ).toLocaleDateString()}`}
               </Text>
             </View>
           </View>

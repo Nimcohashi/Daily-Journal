@@ -42,6 +42,7 @@ const register = async (req, res) => {
         fullName: newUser.fullName,
         phone: newUser.phone,
         token: createToken(newUser._id),
+        createdAt: newUser.createdAt,
       });
   } catch (error) {
     console.log(error);
@@ -78,6 +79,7 @@ const login = async (req, res) => {
         fullName: user.fullName,
         phone: user.phone,
         token: createToken(user._id),
+        createdAt: user.createdAt,
       });
   } catch (error) {
     console.log(error);
@@ -85,7 +87,20 @@ const login = async (req, res) => {
   }
 };
 
+const fetchUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+    return res.json(user);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+}
+
+
+
 module.exports = {
   register,
   login,
+  fetchUser,
 };

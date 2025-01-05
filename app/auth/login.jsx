@@ -17,12 +17,12 @@ import { AuthContext } from "../context/AuthContext";
 const Login = () => {
   const { signIn } = React.useContext(AuthContext);
   const router = useRouter();
-  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   async function handleSubmit() {
-    if (!fullName || !password) {
+    if (!phone || !password) {
       setError("Please fill out all fields");
       return;
     }
@@ -32,7 +32,7 @@ const Login = () => {
 
     try {
       let data = JSON.stringify({
-        phone: fullName,
+        phone: phone,
         password: password,
       });
 
@@ -46,8 +46,6 @@ const Login = () => {
       };
 
       let response = await axios(config);
-
-      console.log(response.data.token);
      
       if (response.status === 200) {
         signIn(response.data.token);
@@ -87,8 +85,8 @@ const Login = () => {
 
           <View className="items-center w-full">
             <TextInput
-              value={fullName}
-              onChangeText={setFullName}
+              value={phone}
+              onChangeText={setPhone}
               placeholder="Phone Number"
               inputMode="numeric"
               className="border border-gray-700 px-4 py-3 text-lg rounded-2xl w-[85%] mb-2"
