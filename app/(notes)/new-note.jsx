@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useContext, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -19,7 +20,7 @@ import { AuthContext } from "../context/AuthContext";
 const NewNote = () => {
   const { token } = useContext(AuthContext);
   const router = useRouter();
-
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
@@ -29,7 +30,7 @@ const NewNote = () => {
       setError("Title and content are required");
       return;
     }
-
+    setLoading(true);
     const api = getServerUrl();
 
     const saveNote = async () => {
@@ -54,6 +55,8 @@ const NewNote = () => {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -90,14 +93,18 @@ const NewNote = () => {
           <View className="flex justify-center flex-col items-center mb-2 w-full py-3 content-center">
             <Text className="text-red-500 my-2">{error}</Text>
 
-            <TouchableOpacity
-              onPress={handleSave}
-              className="bg-yellow-400 px-4 py-3 rounded-full w-4/5 mb-2"
-            >
-              <Text className="text-white font-medium text-xl text-center">
-                Save
-              </Text>
-            </TouchableOpacity>
+            {loading ? (
+             <ActivityIndicator size="large" color="#FF0000" />
+            ) : (
+              <TouchableOpacity
+                onPress={handleSave}
+                className="bg-yellow-400 px-4 py-3 rounded-full w-4/5 mb-2"
+              >
+                <Text className="text-white font-medium text-xl text-center">
+                  Save
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </ScrollView>

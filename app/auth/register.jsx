@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,13 +18,14 @@ import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 
 const Register = () => {
-   const { signIn } = React.useContext(AuthContext);
+  const { signIn } = React.useContext(AuthContext);
   const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit() {
     if (!fullName || !phoneNumber || !password || !confirmPassword) {
@@ -36,6 +38,7 @@ const Register = () => {
     }
     setError("");
 
+    setLoading(true);
     const api = getServerUrl();
 
     let data = JSON.stringify({
@@ -52,9 +55,8 @@ const Register = () => {
       },
       data: data,
     };
-    
-    try {
 
+    try {
       let response = await axios(config);
 
       if (response.status === 201) {
@@ -65,18 +67,16 @@ const Register = () => {
           response.data.message || "An error occurred. Please try again later."
         );
       }
-      
     } catch (error) {
-      
       if (error.response) {
-        setError(error.response.data.message); 
+        setError(error.response.data.message);
       } else {
         setError("An error occurred. Please try again later.");
       }
-      
+    } finally {
+      setLoading(false);
     }
-   
-  };
+  }
 
   return (
     <SafeAreaView className="">
@@ -129,14 +129,18 @@ const Register = () => {
             <Text className="text-red-500 text-sm">{error}</Text>
 
             <View className="items-center mb-32 mt-2 w-full">
-              <TouchableOpacity
-                onPress={handleSubmit}
-                className=" bg-yellow-500 px-4 py-3 rounded-full w-4/5 mb-2"
-              >
-                <Text className="text-white font-medium text-xl text-center">
-                  Register
-                </Text>
-              </TouchableOpacity>
+              {loading ? (
+                <ActivityIndicator size="large" color="#FF0000" />
+              ) : (
+                <TouchableOpacity
+                  onPress={handleSubmit}
+                  className=" bg-yellow-500 px-4 py-3 rounded-full w-4/5 mb-2"
+                >
+                  <Text className="text-white font-medium text-xl text-center">
+                    Register
+                  </Text>
+                </TouchableOpacity>
+              )}
 
               <Text className="text-grey-600 text-xl font-semibold">
                 Have an account?{"     "}

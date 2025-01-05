@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useContext, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -25,12 +26,19 @@ const EditNote = () => {
   const { note } = useLocalSearchParams();
   const parsedNote = note ? JSON.parse(note) : {};
 
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [error, setError] = useState("");
   const [noteId, setNoteId] = useState(parsedNote._id || "");
   const [title, setTitle] = useState(parsedNote.title || "");
   const [content, setContent] = useState(parsedNote.content || "");
 
   const handleSave = async () => {
+    if (!title || !content) {
+      setError("Title and content are required");
+      return;
+    }
+    setUpdateLoading(true);
     const api = getServerUrl();
     try {
       let config = {
@@ -54,10 +62,13 @@ const EditNote = () => {
       router.push("/(notes)");
     } catch (error) {
       setError(error.message);
+    } finally {
+      setUpdateLoading(false);
     }
   };
 
   const handleDelete = async () => {
+    setDeleteLoading(true);
     const api = getServerUrl();
     try {
       let config = {
@@ -77,8 +88,10 @@ const EditNote = () => {
       router.push("/(notes)");
     } catch (error) {
       setError(error.message);
+    } finally {
+      setDeleteLoading(false);
     }
-  }
+  };
 
   return (
     <SafeAreaView className="bg-white h-full">
@@ -110,18 +123,25 @@ const EditNote = () => {
           <View className="flex justify-center flex-col items-center mb-2 w-full py-3 content-center">
             <Text className="text-red-500 my-2">{error}</Text>
             <View className="flex flex-row justify-between">
-              <TouchableOpacity
-                onPress={handleSave}
-                className=" flex flex-row bg-yellow-400 px-4 py-3 rounded-full  mx-6 mb-2"
-              >
-                <AntDesign name="edit" size={24} color="white" />
-                <Text className="text-white font-medium mx-4 text-xl text-center">
-                  Update
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={
-                  () =>
+              {updateLoading ? (
+                <ActivityIndicator size="large" color="#FFD700" />
+              ) : (
+                <TouchableOpacity
+                  onPress={handleSave}
+                  className=" flex flex-row bg-yellow-400 px-4 py-3 rounded-full  mx-6 mb-2"
+                >
+                  <AntDesign name="edit" size={24} color="white" />
+                  <Text className="text-white font-medium mx-4 text-xl text-center">
+                    Update
+                  </Text>
+                </TouchableOpacity>
+              )}
+
+              {deleteLoading ? (
+                <ActivityIndicator size="large" color="#FF0000" />
+              ) : (
+                <TouchableOpacity
+                  onPress={() =>
                     Alert.alert(
                       "Delete Note",
                       "Are you sure you want to delete this note?",
@@ -134,18 +154,20 @@ const EditNote = () => {
                         { text: "OK", onPress: handleDelete },
                       ]
                     )
-                }
-                className="flex flex-row bg-red-500 px-4 py-3 rounded-full mx-6 mb-2"
-              >
-                <AntDesign name="delete" size={24} color="white" />
-                <Text className="text-white font-medium mx-4 text-xl text-center">
-                  Delete
-                </Text>
-              </TouchableOpacity>
+                  }
+                  className="flex flex-row bg-red-500 px-4 py-3 rounded-full mx-6 mb-2"
+                >
+                  <AntDesign name="delete" size={24} color="white" />
+                  <Text className="text-white font-medium mx-4 text-xl text-center">
+                    Delete
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         </View>
       </ScrollView>
+      <StatusBar style="auto" />
     </SafeAreaView>
   );
 };

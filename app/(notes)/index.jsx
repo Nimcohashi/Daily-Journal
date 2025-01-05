@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity, RefreshControl } from "react-native";
 import React, { useState, useContext, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Note from "../../components/note";
@@ -14,47 +14,56 @@ const Home = () => {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [notes, setNotes] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const fetchUser = async () => {
+    const api = getServerUrl();
+    try {
+      let config = {
+        method: "get",
+        maxBodyLength: Infinity,
+        url: `${api}/user/fetch-user`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.request(config);
+      setUser(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchNotes = async () => {
+    const api = getServerUrl();
+    try {
+      let config = {
+        method: "get",
+        maxBodyLength: Infinity,
+        url: `${api}/notes/`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.request(config);
+      const sortedNotes = response.data.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+      setNotes(sortedNotes);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    const api = getServerUrl();
-    const fetchUser = async () => {
-      try {
-        let config = {
-          method: "get",
-          maxBodyLength: Infinity,
-          url: `${api}/user/fetch-user`,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-        const response = await axios.request(config);
-        setUser(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const fetchNotes = async () => {
-      try {
-        let config = {
-          method: "get",
-          maxBodyLength: Infinity,
-          url: `${api}/notes/`,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-        const response = await axios.request(config);
-        setNotes(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     fetchUser();
     fetchNotes();
   }, [token]);
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchUser();
+    await fetchNotes();
+    setRefreshing(false);
+  };
 
   const handleEditPress = (note) => {
     router.push({
@@ -91,7 +100,11 @@ const Home = () => {
 
   return (
     <SafeAreaView className="bg-white h-full">
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <View className=" flex flex-col p-5">
           {/* Header */}
           <Link href="/profile" asChild>

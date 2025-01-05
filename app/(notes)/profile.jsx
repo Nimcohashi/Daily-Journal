@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -19,14 +20,17 @@ import { getServerUrl } from "../../constants/api";
 
 const Profile = () => {
   const { signOut, token } = useContext(AuthContext);
-const router = useRouter();
+  const router = useRouter();
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // fetch user data
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        setLoading(true);
+
         const api = getServerUrl();
 
         let config = {
@@ -39,9 +43,10 @@ const router = useRouter();
         };
         const response = await axios.request(config);
         setUser(response.data);
-        
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -51,7 +56,7 @@ const router = useRouter();
   return (
     <SafeAreaView className="bg-white h-full">
       <ScrollView>
-        <Heading title="Profile"onBackPress={() => router.back()} />
+        <Heading title="Profile" onBackPress={() => router.back()} />
 
         <View className="flex flex-col p-5">
           <View className="flex flex-col items-center">
@@ -59,6 +64,9 @@ const router = useRouter();
               source={require("../../assets/avatar.png")}
               className="w-24 h-24 rounded-full"
             />
+
+            {loading && <ActivityIndicator size="large" color="#0000ff" />}
+
             <View className="flex flex-col">
               <Text className="text-xl text-gray-950 font-bold text-center mt-4">
                 {user?.fullName}

@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -20,6 +21,7 @@ const Login = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit() {
     if (!phone || !password) {
@@ -28,6 +30,7 @@ const Login = () => {
     }
     setError("");
 
+    setLoading(true);
     const api = getServerUrl();
 
     try {
@@ -46,11 +49,10 @@ const Login = () => {
       };
 
       let response = await axios(config);
-     
+
       if (response.status === 200) {
         signIn(response.data.token);
         router.push("../(notes)");
-      
       } else {
         setError(
           response.data.message || "An error occurred. Please try again later."
@@ -63,6 +65,8 @@ const Login = () => {
       } else {
         setError("An error occurred. Please try again later.");
       }
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -108,15 +112,18 @@ const Login = () => {
             </View>
 
             <View className="items-center mb-36 w-full">
-              <TouchableOpacity
-                onPress={handleSubmit}
-                className="bg-yellow-500 px-4 py-3 rounded-full w-4/5 mb-2"
-              >
-                <Text className="text-white font-medium text-xl text-center">
-                  Log In
-                </Text>
-              </TouchableOpacity>
-
+              {loading ? (
+                <ActivityIndicator size="large" color="#FF0000" />
+              ) : (
+                <TouchableOpacity
+                  onPress={handleSubmit}
+                  className="bg-yellow-500 px-4 py-3 rounded-full w-4/5 mb-2"
+                >
+                  <Text className="text-white font-medium text-xl text-center">
+                    Log In
+                  </Text>
+                </TouchableOpacity>
+              )}
               <Text className="text-grey-600 text-xl font-semibold">
                 Don't have an account?{" "}
                 <Link href="./register" className="text-red-500">
