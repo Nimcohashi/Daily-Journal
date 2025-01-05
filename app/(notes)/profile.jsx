@@ -39,7 +39,7 @@ const router = useRouter();
         };
         const response = await axios.request(config);
         setUser(response.data);
-        console.log(user)
+        
       } catch (error) {
         console.log(error);
       }

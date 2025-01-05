@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 
 const Note = ({
   name,
@@ -33,7 +33,20 @@ const Note = ({
         {/* Notes button icons */}
 
         <View className="flex flex-row justify-end">
-          <TouchableOpacity onPress={onDeletePress}>
+          <TouchableOpacity onPress={
+            () => Alert.alert(
+              "Delete Note",
+              "Are you sure you want to delete this note?",
+              [
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel",
+                },
+                { text: "OK", onPress: onDeletePress },
+              ]
+            )
+          }>
             <Image
               source={require("../assets/delete.png")}
               style={{ width: 25, height: 25 }}
