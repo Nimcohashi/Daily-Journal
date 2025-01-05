@@ -1,8 +1,19 @@
+/**
+ * Note component to display a note with its details and actions.
+ * 
+ * @param {Object} props - Component props.
+ * @param {string} props.name - The name/title of the note.
+ * @param {string} props.details - The details/content of the note.
+ * @param {function} props.onDeletePress - Function to call when delete button is pressed.
+ * @param {function} props.onNotePress - Function to call when note is pressed.
+ * @param {string} props.updatedAt - The last updated timestamp of the note.
+ */
+
 import React from "react";
 import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 
-const Note = ({
-  name,
+const Note = ({ // object destructuring to get the props values from index.jsx
+  name, 
   details,
   onDeletePress,
   onNotePress,
@@ -22,7 +33,6 @@ const Note = ({
       </View>
 
       {/* Notes footer */}
-
       <View className="flex flex-row justify-between">
         <View className="flex flex-row justify-between">
           <Text className="text-gray-950 font-normal text-justify my-2">
@@ -30,7 +40,6 @@ const Note = ({
           </Text>
         </View>
         {/* Notes button icons */}
-
         <View className="flex flex-row justify-end">
           <TouchableOpacity
             onPress={() =>

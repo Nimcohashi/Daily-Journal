@@ -1,108 +1,119 @@
+// Import necessary modules and components
 import { View, Text, ScrollView, Image, TouchableOpacity, RefreshControl } from "react-native";
 import React, { useState, useContext, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Note from "../../components/note";
+import Note from "../../components/note"; // Import the Note component to display notes
 import { StatusBar } from "expo-status-bar";
 import { Link, useRouter } from "expo-router";
 import axios from "axios";
-import { getServerUrl } from "../../constants/api";
-import { AuthContext } from "../context/AuthContext";
+import { getServerUrl } from "../../constants/api"; // Import the server URL
+import { AuthContext } from "../context/AuthContext"; // Import the authentication context
 
+/**
+ * Home component that displays user information and a list of notes.
+ * Allows refreshing, editing, and deleting notes.
+ */
 const Home = () => {
-  const { token } = useContext(AuthContext);
+  const { token } = useContext(AuthContext); // Get the authentication token from context
 
   const router = useRouter();
-  const [user, setUser] = useState(null);
-  const [notes, setNotes] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
+  const [user, setUser] = useState(null); // State to store user information
+  const [notes, setNotes] = useState([]); // State to store notes
+  const [refreshing, setRefreshing] = useState(false); // State to handle refresh control
 
+  // Fetch user information from the server
   const fetchUser = async () => {
-    const api = getServerUrl();
+    const api = getServerUrl(); // Get the server URL
     try {
-      let config = {
+      let config = {  // Axios request configuration  
         method: "get",
         maxBodyLength: Infinity,
-        url: `${api}/user/fetch-user`,
+        url: `${api}/user/fetch-user`, // API endpoint to fetch user information
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // Authorization header with the token
         },
       };
-      const response = await axios.request(config);
-      setUser(response.data);
+      const response = await axios.request(config); // Send the request to the server
+      setUser(response.data); // Set the user state with the response data
     } catch (error) {
       console.log(error);
     }
   };
 
+  // Fetch notes from the server and sort them by updated date
   const fetchNotes = async () => {
-    const api = getServerUrl();
+    const api = getServerUrl(); // Get the server URL
     try {
-      let config = {
-        method: "get",
+      let config = { // Axios request configuration
+        method: "get", // HTTP GET method
         maxBodyLength: Infinity,
-        url: `${api}/notes/`,
+        url: `${api}/notes/`, // API endpoint to fetch notes
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // Authorization header with the token
         },
       };
-      const response = await axios.request(config);
-      const sortedNotes = response.data.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-      setNotes(sortedNotes);
+      const response = await axios.request(config); // Send the request to the server
+      const sortedNotes = response.data.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)); // Sort notes by updated date
+      setNotes(sortedNotes); // Set the notes state with the sorted notes
     } catch (error) {
       console.log(error);
     }
   };
 
+  // Fetch user and notes when the component mounts or token changes
   useEffect(() => {
-    fetchUser();
-    fetchNotes();
-  }, [token]);
+    fetchUser(); // Fetch user information
+    fetchNotes(); // Fetch notes
+  }, [token]); // Fetch data when the token changes
 
+  // Handle pull-to-refresh action
   const onRefresh = async () => {
-    setRefreshing(true);
-    await fetchUser();
-    await fetchNotes();
+    setRefreshing(true); // Set refreshing state to true
+    await fetchUser(); // Fetch user information
+    await fetchNotes(); // Fetch notes
     setRefreshing(false);
   };
 
+  // Navigate to the edit note screen with the selected note
   const handleEditPress = (note) => {
     router.push({
-      pathname: "/edit-note",
-      params: { note: JSON.stringify(note) },
+      pathname: "/edit-note", // Navigate to the edit note screen
+      params: { note: JSON.stringify(note) }, // Pass the selected note as a parameter
     });
   };
 
+  // Delete the selected note from the server and update the state
   const handleDeletePress = (note) => {
-    const api = getServerUrl();
+    const api = getServerUrl(); // Get the server URL
     const deleteNote = async () => {
       try {
-        let config = {
-          method: "delete",
+        let config = { // Axios request configuration
+          method: "delete", // HTTP DELETE method 
           maxBodyLength: Infinity,
-          url: `${api}/notes/delete/${note._id}`,
+          url: `${api}/notes/delete/${note._id}`, // API endpoint to delete a note by ID
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`, // Authorization header with the token
           },
         };
-        const response = await axios.request(config);
-        setNotes(notes.filter((n) => n._id !== note._id));
+        const response = await axios.request(config); // Send the request to the server
+        setNotes(notes.filter((n) => n._id !== note._id)); // Update the notes state by filtering out the deleted note
 
         if (response.status === 200) {
-          alert("Note deleted successfully");
+          alert("Note deleted successfully"); // Show an alert message if the note is deleted successfully
         }
       } catch (error) {
         console.log(error);
       }
     };
 
-    deleteNote();
+    deleteNote(); // Delete the note
   };
 
   return (
     <SafeAreaView className="bg-white h-full">
       <ScrollView
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> // Add pull-to-refresh functionality
         }
       >
         <View className=" flex flex-col p-5">
@@ -124,14 +135,17 @@ const Home = () => {
           </Link>
           {/* Notes */}
 
-          {notes.map((note) => (
+          {notes.map((note) => ( // Map through the notes array
+
+            // Display each note using the Note component
+
             <Note
-              key={note._id}
-              name={note.title}
-              details={note.content}
-              updatedAt={new Date(note.updatedAt).toLocaleString()}
-              onDeletePress={() => handleDeletePress(note)}
-              onNotePress={() => handleEditPress(note)}
+              key={note._id} // Unique key for each note
+              name={note.title} // Note title
+              details={note.content} // Note content  
+              updatedAt={new Date(note.updatedAt).toLocaleString()} // Note updated date 
+              onDeletePress={() => handleDeletePress(note)} // Delete note function
+              onNotePress={() => handleEditPress(note)} // Edit note function
             />
           ))}
         </View>
