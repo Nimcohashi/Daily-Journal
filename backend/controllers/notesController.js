@@ -12,14 +12,14 @@ const createNote = async (req, res) => {
   }
 
   try {
-    // check if the user already exists
+    // Check if the user exists
     const user = await User.findById(_id);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // create a new note
+    // Create a new note
     const note = new Notes({
       title: title,
       content: content,
@@ -38,7 +38,7 @@ const createNote = async (req, res) => {
 const getNotes = async (req, res) => {
   const { _id } = req.user;
   try {
-    // check if the user already exists
+    // Check if the user exists
     const user = await User.findById(_id);
 
     if (!user) {
@@ -63,7 +63,7 @@ const getSingularNote = async (req, res) => {
   }
 
   try {
-    // check if the user already exists
+    // Check if the user exists
     const user = await User.findById(_id);
 
     if (!user) {
@@ -96,14 +96,14 @@ const editNote = async (req, res) => {
   }
 
   try {
-    // check if the user already exists
+    // Check if the user exists
     const user = await User.findById(_id);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // edit the note
+    // Edit the note
     const note = await Notes.findOneAndUpdate(
       { _id: id, createdBy: _id },
       { title: title, content: content },
@@ -129,14 +129,14 @@ const deleteNote = async (req, res) => {
   }
 
   try {
-    // check if the user already exists
+    // Check if the user exists
     const user = await User.findById(_id);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // delete the note
+    // Delete the note
     const note = await Notes.findOneAndDelete({ _id: id, createdBy: _id });
 
     if (!note) {

@@ -17,15 +17,14 @@ const router = express.Router();
 // Auth Middleware
 router.use(requireAuth);
 
-// use routes
-router.post("/create", createNote);
-router.get("/", getNotes);
-router.get("/:id", getSingularNote);
-router.put("/update/:id", editNote);
-router.delete("/delete/:id", deleteNote);
+// Define routes
+router.post("/create", createNote); // Route to create a new note
+router.get("/", getNotes); // Route to get all notes
+router.get("/:id", getSingularNote); // Route to get a single note by ID
+router.put("/update/:id", editNote); // Route to update a note by ID
+router.delete("/delete/:id", deleteNote); // Route to delete a note by ID
 
-
-// export the router
+// Export the router
 module.exports = router;
 
 
