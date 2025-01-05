@@ -73,8 +73,6 @@ const Home = () => {
       }
     };
 
-    
-
     const fetchNotes = async () => {
       try {
         let config = {
@@ -87,12 +85,10 @@ const Home = () => {
         };
         const response = await axios.request(config);
         setNotes(response.data);
-
-       
       } catch (error) {
         console.log(error);
       }
-    }
+    };
 
     fetchUser();
     fetchNotes();
@@ -100,14 +96,13 @@ const Home = () => {
 
   const handleNotePress = (note) => {
     router.push("/note", { note });
-  }
+  };
 
   const handleEditPress = (note) => {
     router.push("/edit-note", { note });
-  }
+  };
 
   const handleDeletePress = (note) => {
-    
     const api = getServerUrl();
     const deleteNote = async () => {
       try {
@@ -125,15 +120,13 @@ const Home = () => {
         if (response.status === 200) {
           alert("Note deleted successfully");
         }
-
       } catch (error) {
         console.log(error);
       }
-    }
+    };
 
     deleteNote();
-
-  }
+  };
 
   return (
     <SafeAreaView className="bg-white h-full">
@@ -167,11 +160,9 @@ const Home = () => {
               name={note.title}
               details={note.content}
               updatedAt={new Date(note.updatedAt).toLocaleString()}
-              onDeletePress={
-                () => handleDeletePress(note)
-              }
-              onEditPress={() => console.log("Edit Pressed")}
-              onNotePress={() => console.log("Note Pressed")}
+              onDeletePress={() => handleDeletePress(note)}
+              onEditPress={() => handleEditPress(note)}
+              onNotePress={() => handleNotePress(note)}
             />
           ))}
         </View>

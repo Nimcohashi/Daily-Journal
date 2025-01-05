@@ -9,6 +9,7 @@ const NotesLayout = () => {
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="new-note" options={{ headerShown: false }} />
+      <Stack.Screen name="edit-note" options={{ headerShown: false }} />
       <Stack.Screen name="profile" options={{ headerShown: false }} />
     </Stack>
   );
