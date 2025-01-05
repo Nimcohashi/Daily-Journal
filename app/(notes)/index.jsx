@@ -55,17 +55,13 @@ const Home = () => {
     fetchNotes();
   }, [token]);
 
-  const handleNotePress = (note) => {
-    router.push("/note", { note });
+
+  const handleEditPress = (note) => {
+    router.push({
+      pathname: "/edit-note",
+      params: { note: JSON.stringify(note) },
+    });
   };
-
-const handleEditPress = (note) => {
-  router.push({
-    pathname: "/edit-note",
-    params: { note: JSON.stringify(note) },
-  });
-};
-
 
   const handleDeletePress = (note) => {
     const api = getServerUrl();
@@ -122,8 +118,7 @@ const handleEditPress = (note) => {
               details={note.content}
               updatedAt={new Date(note.updatedAt).toLocaleString()}
               onDeletePress={() => handleDeletePress(note)}
-              onEditPress={() => handleEditPress(note)}
-              onNotePress={() => handleNotePress(note)}
+              onNotePress={() => handleEditPress(note)}
             />
           ))}
         </View>

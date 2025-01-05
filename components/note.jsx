@@ -5,7 +5,6 @@ const Note = ({
   name,
   details,
   onDeletePress,
-  onEditPress,
   onNotePress,
   updatedAt,
 }) => {
@@ -15,11 +14,11 @@ const Note = ({
       <View className="display flex flex-col mx-1 justify-between">
         <TouchableOpacity onPress={onNotePress}>
           <Text className="font-semibold text-xl text-gray-950">{name}</Text>
-       
-        <Text className="text-gray-950 font-normal text-justify my-2">
-          {details}
-        </Text>
-         </TouchableOpacity>
+
+          <Text className="text-gray-950 font-normal text-justify my-2">
+            {details}
+          </Text>
+        </TouchableOpacity>
       </View>
 
       {/* Notes footer */}
@@ -33,29 +32,24 @@ const Note = ({
         {/* Notes button icons */}
 
         <View className="flex flex-row justify-end">
-          <TouchableOpacity onPress={
-            () => Alert.alert(
-              "Delete Note",
-              "Are you sure you want to delete this note?",
-              [
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel",
-                },
-                { text: "OK", onPress: onDeletePress },
-              ]
-            )
-          }>
+          <TouchableOpacity
+            onPress={() =>
+              Alert.alert(
+                "Delete Note",
+                "Are you sure you want to delete this note?",
+                [
+                  {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel",
+                  },
+                  { text: "OK", onPress: onDeletePress },
+                ]
+              )
+            }
+          >
             <Image
               source={require("../assets/delete.png")}
-              style={{ width: 25, height: 25 }}
-              className="mx-2"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onEditPress}>
-            <Image
-              source={require("../assets/edit.png")}
               style={{ width: 25, height: 25 }}
               className="mx-2"
             />
