@@ -8,45 +8,6 @@ import axios from "axios";
 import { getServerUrl } from "../../constants/api";
 import { AuthContext } from "../context/AuthContext";
 
-const sampleNotes = [
-  {
-    _id: "676cf2dc4160fd8864e54606",
-    title: "Note 1",
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus reiciendis sunt ab! Ab, inventore quis! Quis eius dicta porro ipsa repellendus tenetur debitis, totam magni similique repudiandae impedit provident doloremque.",
-    createdBy: "676cf2dc4160fd8864e54606",
-    createdAt: "2024-12-26T06:08:28.400+00:00",
-    updatedAt: "2024-12-26T06:08:28.400+00:00",
-  },
-  {
-    _id: "676ce26f4160fd8864e545f9",
-    title: "Note 2",
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus reiciendis sunt ab! Ab, inventore quis! Quis eius dicta porro ipsa repellendus tenetur debitis, totam magni similique repudiandae impedit provident doloremque.",
-    createdBy: "676cf2dc4160fd8864e54606",
-    createdAt: "2024-12-26T06:08:28.400+00:00",
-    updatedAt: "2024-12-26T06:08:28.400+00:00",
-  },
-  {
-    _id: "676cf31c4160fd8864e5460a",
-    title: "Note 2",
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus reiciendis sunt ab! Ab, inventore quis! Quis eius dicta porro ipsa repellendus tenetur debitis, totam magni similique repudiandae impedit provident doloremque.",
-    createdBy: "676cf2dc4160fd8864e54606",
-    createdAt: "2024-12-26T06:08:28.400+00:00",
-    updatedAt: "2024-12-26T06:08:28.400+00:00",
-  },
-  {
-    _id: "676cf31c4160fd8864825460a",
-    title: "Note 2",
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus reiciendis sunt ab! Ab, inventore quis! Quis eius dicta porro ipsa repellendus tenetur debitis, totam magni similique repudiandae impedit provident doloremque.",
-    createdBy: "676cf2dc4160fd8864e54606",
-    createdAt: "2024-12-26T06:08:28.400+00:00",
-    updatedAt: "2024-12-26T06:08:28.400+00:00",
-  },
-];
-
 const Home = () => {
   const { token } = useContext(AuthContext);
 
