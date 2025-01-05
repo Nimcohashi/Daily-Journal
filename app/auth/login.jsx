@@ -10,20 +10,22 @@ import {
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
-import { getServerUrl } from "../../constants/api";
+import { getServerUrl } from "../../constants/api"; // Import the getServerUrl function from the api.js file
 import { Link, useRouter } from "expo-router";
-import axios from "axios";
-import { AuthContext } from "../context/AuthContext";
+import axios from "axios"; // Import the axios library  
+import { AuthContext } from "../context/AuthContext"; // Import the AuthContext from the context folder
 
 const Login = () => {
-  const { signIn } = React.useContext(AuthContext);
+  const { signIn } = React.useContext(AuthContext); // Get the signIn function from the AuthContext
   const router = useRouter();
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Function to handle form submission
   async function handleSubmit() {
+    // Validate input fields
     if (!phone || !password) {
       setError("Please fill out all fields");
       return;
@@ -31,28 +33,28 @@ const Login = () => {
     setError("");
 
     setLoading(true);
-    const api = getServerUrl();
+    const api = getServerUrl(); // Get the server URL using the getServerUrl function
 
     try {
-      let data = JSON.stringify({
+      let data = JSON.stringify({ // Create a JSON string with the user data
         phone: phone,
         password: password,
       });
 
-      let config = {
+      let config = { // Create a configuration object with the request data 
         method: "post",
-        url: `${api}/user/login`,
+        url: `${api}/user/login`, // Set the URL for the request
         headers: {
           "Content-Type": "application/json",
         },
         data: data,
       };
 
-      let response = await axios(config);
+      let response = await axios(config); // Send the request to the server
 
-      if (response.status === 200) {
-        signIn(response.data.token);
-        router.push("../(notes)");
+      if (response.status === 200) { // If the request is successful (status code 200)
+        signIn(response.data.token); // Sign in the user with the token received from the server
+        router.push("../(notes)"); // Redirect the user to the notes page
       } else {
         setError(
           response.data.message || "An error occurred. Please try again later."

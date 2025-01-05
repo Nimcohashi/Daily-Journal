@@ -4,7 +4,6 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
   ScrollView,
   ActivityIndicator,
 } from "react-native";
@@ -13,13 +12,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { getServerUrl } from "../../constants/api";
-import axios from "axios";
-import { AuthContext } from "../context/AuthContext";
+import { getServerUrl } from "../../constants/api";  // Import the getServerUrl function from the api.js file
+import axios from "axios"; // Import the axios library
+import { AuthContext } from "../context/AuthContext"; // Import the AuthContext from the context folder
 
 const Register = () => {
-  const { signIn } = React.useContext(AuthContext);
-  const router = useRouter();
+  const { signIn } = React.useContext(AuthContext); // Get the signIn function from the AuthContext
+  const router = useRouter(); // Get the router object from the expo-router
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +26,20 @@ const Register = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Function to handle form submission
+  /**
+   * Handles the form submission for user registration.
+   * 
+   * Validates the input fields, checks if passwords match, and sends a POST request
+   * to the server to register the user. If successful, signs in the user and redirects
+   * to the notes page. Otherwise, sets an error message.
+   * 
+   * @async
+   * @function handleSubmit
+   * @returns {Promise<void>} A promise that resolves when the form submission is complete.
+   */
   async function handleSubmit() {
+    // Validate input fields
     if (!fullName || !phoneNumber || !password || !confirmPassword) {
       setError("Please fill out all fields");
       return;
@@ -39,29 +51,29 @@ const Register = () => {
     setError("");
 
     setLoading(true);
-    const api = getServerUrl();
+    const api = getServerUrl(); // Get the server URL using the getServerUrl function
 
-    let data = JSON.stringify({
+    let data = JSON.stringify({ // Create a JSON string with the user data
       fullName: fullName,
       phone: phoneNumber,
       password: password,
     });
 
-    let config = {
+    let config = { // Create the axios request configuration
       method: "post",
-      url: `${api}/user/register`,
+      url: `${api}/user/register`, // Use the server URL and the /user/register endpoint
       headers: {
         "Content-Type": "application/json",
       },
-      data: data,
+      data: data, // Set the data to the JSON string
     };
 
     try {
-      let response = await axios(config);
+      let response = await axios(config); // Send the POST request to the server
 
-      if (response.status === 201) {
-        signIn(response.data.token);
-        router.push("../(notes)");
+      if (response.status === 201) { // If the response status is 201 (Created)
+        signIn(response.data.token); // Sign in the user with the token received from the server
+        router.push("../(notes)"); // Redirect to the notes page  
       } else {
         setError(
           response.data.message || "An error occurred. Please try again later."
@@ -69,7 +81,7 @@ const Register = () => {
       }
     } catch (error) {
       if (error.response) {
-        setError(error.response.data.message);
+        setError(error.response.data.message); // Display the specific error from the server
       } else {
         setError("An error occurred. Please try again later.");
       }
