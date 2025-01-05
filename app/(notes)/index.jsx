@@ -1,5 +1,13 @@
 // Import necessary modules and components
-import { View, Text, ScrollView, Image, TouchableOpacity, RefreshControl } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  RefreshControl,
+  ActivityIndicator,
+} from "react-native";
 import React, { useState, useContext, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Note from "../../components/note"; // Import the Note component to display notes
@@ -20,12 +28,14 @@ const Home = () => {
   const [user, setUser] = useState(null); // State to store user information
   const [notes, setNotes] = useState([]); // State to store notes
   const [refreshing, setRefreshing] = useState(false); // State to handle refresh control
+  const [loading, setLoading] = useState(false); // State to handle loading indicator
 
   // Fetch user information from the server
   const fetchUser = async () => {
     const api = getServerUrl(); // Get the server URL
     try {
-      let config = {  // Axios request configuration  
+      let config = {
+        // Axios request configuration
         method: "get",
         maxBodyLength: Infinity,
         url: `${api}/user/fetch-user`, // API endpoint to fetch user information
@@ -43,8 +53,10 @@ const Home = () => {
   // Fetch notes from the server and sort them by updated date
   const fetchNotes = async () => {
     const api = getServerUrl(); // Get the server URL
+    setLoading(true); // Set loading state to true
     try {
-      let config = { // Axios request configuration
+      let config = {
+        // Axios request configuration
         method: "get", // HTTP GET method
         maxBodyLength: Infinity,
         url: `${api}/notes/`, // API endpoint to fetch notes
@@ -53,10 +65,14 @@ const Home = () => {
         },
       };
       const response = await axios.request(config); // Send the request to the server
-      const sortedNotes = response.data.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)); // Sort notes by updated date
+      const sortedNotes = response.data.sort(
+        (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+      ); // Sort notes by updated date
       setNotes(sortedNotes); // Set the notes state with the sorted notes
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false); // Set loading state to false
     }
   };
 
@@ -87,8 +103,9 @@ const Home = () => {
     const api = getServerUrl(); // Get the server URL
     const deleteNote = async () => {
       try {
-        let config = { // Axios request configuration
-          method: "delete", // HTTP DELETE method 
+        let config = {
+          // Axios request configuration
+          method: "delete", // HTTP DELETE method
           maxBodyLength: Infinity,
           url: `${api}/notes/delete/${note._id}`, // API endpoint to delete a note by ID
           headers: {
@@ -100,6 +117,7 @@ const Home = () => {
 
         if (response.status === 200) {
           alert("Note deleted successfully"); // Show an alert message if the note is deleted successfully
+          fetchNotes(); // Fetch notes after deleting a note
         }
       } catch (error) {
         console.log(error);
@@ -111,9 +129,18 @@ const Home = () => {
 
   return (
     <SafeAreaView className="bg-white h-full">
+      {loading && (
+        <View className="absolute inset-0 justify-center items-center z-10">
+          <ActivityIndicator size="large" color="#FFD700" />
+        </View>
+      )}
       <ScrollView
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> // Add pull-to-refresh functionality
+          <RefreshControl
+            refreshing={refreshing}
+            colors={["#FFD700"]}
+            onRefresh={onRefresh}
+          /> // Add pull-to-refresh functionality
         }
       >
         <View className=" flex flex-col p-5">
@@ -134,20 +161,30 @@ const Home = () => {
             </TouchableOpacity>
           </Link>
           {/* Notes */}
+          {notes.length === 0 && !loading && (
+            <View className="flex-1 justify-center items-center">
+              <Text className="text-lg text-gray-500">No notes available.</Text>
+              <Text className="text-lg text-gray-500">
+                Create a new note by clicking the "+" button below.
+              </Text>
+            </View>
+          )}
+          {notes.map(
+            (
+              note // Map through the notes array
+            ) => (
+              // Display each note using the Note component
 
-          {notes.map((note) => ( // Map through the notes array
-
-            // Display each note using the Note component
-
-            <Note
-              key={note._id} // Unique key for each note
-              name={note.title} // Note title
-              details={note.content} // Note content  
-              updatedAt={new Date(note.updatedAt).toLocaleString()} // Note updated date 
-              onDeletePress={() => handleDeletePress(note)} // Delete note function
-              onNotePress={() => handleEditPress(note)} // Edit note function
-            />
-          ))}
+              <Note
+                key={note._id} // Unique key for each note
+                name={note.title} // Note title
+                details={note.content} // Note content
+                updatedAt={new Date(note.updatedAt).toLocaleString()} // Note updated date
+                onDeletePress={() => handleDeletePress(note)} // Delete note function
+                onNotePress={() => handleEditPress(note)} // Edit note function
+              />
+            )
+          )}
         </View>
       </ScrollView>
 
