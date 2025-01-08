@@ -13,7 +13,7 @@ const RootLayout = () => {
       <RootLayoutContent />
     </AuthProvider>
   );
-};
+}; 
 
 /**
  * RootLayoutContent component that handles routing based on authentication state.
