@@ -91,20 +91,20 @@ const Profile = () => {
             {/* Profile option */}
             <TouchableOpacity className="flex flex-row mx-1 my-2 items-center justify-between bg-slate-50 rounded-xl p-2">
               <View className="flex flex-row items-center space-x-2">
-                <AntDesign name="user" size={30} color="black" />
+                <AntDesign name="user" size={30} color="blue" />
                 <Text className="text-gray-950 text-lg ml-4">Profile</Text>
               </View>
-              <AntDesign name="arrowright" size={24} color="black" />
+              <AntDesign name="arrowright" size={24} color="blue" />
             </TouchableOpacity>
             {/* Change Password option */}
             <TouchableOpacity className="flex flex-row mx-1 my-2 items-center justify-between bg-slate-50 rounded-xl p-2">
               <View className="flex flex-row items-center space-x-2">
-                <AntDesign name="key" size={30} color="black" />
+                <AntDesign name="key" size={30} color="blue" />
                 <Text className="text-gray-950 text-lg ml-4">
                   Change Password
                 </Text>
               </View>
-              <AntDesign name="arrowright" size={24} color="black" />
+              <AntDesign name="arrowright" size={24} color="blue" />
             </TouchableOpacity>
             {/* Logout option */}
             <TouchableOpacity

@@ -100,7 +100,7 @@ const NewNote = () => {
             <Text className="text-red-500 my-2">{error}</Text>
 
             {loading ? (
-              <ActivityIndicator size="large" color="#FF0000" />
+              <ActivityIndicator size="large" color="bink" />
             ) : (
               <TouchableOpacity
                 onPress={handleSave} // Call handleSave function on button press
