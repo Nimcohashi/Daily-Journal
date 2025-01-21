@@ -20,7 +20,7 @@ const Note = ({ // object destructuring to get the props values from index.jsx
   updatedAt,
 }) => {
   return (
-    <View className="flex flex-col my-3 bg-yellow-50 p-4 rounded-3xl">
+    <View className="flex flex-col my-3 bg-blue-50 p-4 rounded-3xl">
       {/* Notes content */}
       <View className="display flex flex-col mx-1 justify-between">
         <TouchableOpacity onPress={onNotePress}>
@@ -44,8 +44,8 @@ const Note = ({ // object destructuring to get the props values from index.jsx
           <TouchableOpacity
             onPress={() =>
               Alert.alert(
-                "Delete Note",
-                "Are you sure you want to delete this note?",
+                "Delete Journal",
+                "Are you sure you want to delete this Journal?",
                 [
                   {
                     text: "Cancel",
@@ -58,7 +58,7 @@ const Note = ({ // object destructuring to get the props values from index.jsx
             }
           >
             <Image
-              source={require("../assets/delete.png")}
+              source={require("../assets/recycle.png")}
               style={{ width: 25, height: 25 }}
               className="mx-2"
             />

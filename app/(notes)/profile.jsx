@@ -63,7 +63,7 @@ const Profile = () => {
           <View className="flex flex-col items-center">
             {/* User avatar */}
             <Image
-              source={require("../../assets/avatar.png")}
+              source={require("../../assets/images.png")}
               className="w-24 h-24 rounded-full"
             />
 

@@ -21,5 +21,5 @@
  * Be sure to include the port you assigned when you ran the backend.
  */
 export function getServerUrl() {
-  return "http://192.168.8.102:80"; // Change this to your server or your local computer IP
+  return "http://192.168.147.193:80"; // Change this to your server or your local computer IP
 }

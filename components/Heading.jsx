@@ -17,7 +17,7 @@ const Heading = ({ title, onBackPress }) => { // object destructuring to get the
     <View>
       <TouchableOpacity
         onPress={onBackPress}
-        className=" bg-yellow-400 m-5 rounded-3xl justify-between flex flex-row p-5 "
+        className=" bg-blue-400 m-5 rounded-3xl justify-between flex flex-row p-5 "
       >
         {/* Back arrow icon */}
         <AntDesign name="arrowleft" size={25} color="white" />

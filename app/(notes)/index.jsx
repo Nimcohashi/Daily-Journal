@@ -131,14 +131,14 @@ const Home = () => {
     <SafeAreaView className="bg-white h-full">
       {loading && (
         <View className="absolute inset-0 justify-center items-center z-10">
-          <ActivityIndicator size="large" color="#FFD700" />
+          <ActivityIndicator size="large" color="blue" />
         </View>
       )}
       <ScrollView
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
-            colors={["#FFD700"]}
+            colors={["blue"]}
             onRefresh={onRefresh}
           /> // Add pull-to-refresh functionality
         }
@@ -155,7 +155,7 @@ const Home = () => {
               </View>
 
               <Image
-                source={require("../../assets/user.png")}
+                source={require("../../assets/images (1).png")}
                 style={{ width: 50, height: 50 }}
               />
             </TouchableOpacity>
@@ -163,9 +163,9 @@ const Home = () => {
           {/* Notes */}
           {notes.length === 0 && !loading && (
             <View className="flex-1 justify-center items-center">
-              <Text className="text-lg text-gray-500">No notes available.</Text>
+              <Text className="text-lg text-gray-500">All the reason to make it happen!</Text>
               <Text className="text-lg text-gray-500">
-                Create a new note by clicking the "+" button below.
+              🧘🏽‍♀
               </Text>
             </View>
           )}
@@ -200,7 +200,7 @@ const Home = () => {
           }}
         >
           <Image
-            source={require("../../assets/plus.png")}
+            source={require("../../assets/download (1).jpeg")}
             style={{ width: 60, height: 60 }}
           />
         </TouchableOpacity>

@@ -117,14 +117,14 @@ const EditNote = () => {
               value={title}
               onChangeText={setTitle}
               placeholder="Title...."
-              className="border border-yellow-400 px-4 py-3 text-lg rounded-md w-full my-2  mb-2"
+              className="border border-blue-400 px-4 py-3 text-lg rounded-md w-full my-2  mb-2"
             />
 
             <TextInput
               value={content}
               onChangeText={setContent}
               placeholder="Content...."
-              className="border border-yellow-400 px-4 text-justify py-3 text-lg rounded-md w-full my-2 max-h-[30vh] overflow-auto mb-2"
+              className="border border-blue-400 px-4 text-justify py-3 text-lg rounded-md w-full my-2 max-h-[30vh] overflow-auto mb-2"
               multiline={true}
               numberOfLines={7}
               style={{ height: 200 }}
@@ -140,7 +140,7 @@ const EditNote = () => {
                 <>
                   <TouchableOpacity
                     onPress={handleSave}
-                    className=" flex flex-row bg-yellow-400 px-5 py-3 rounded-full  mx-6 mb-2"
+                    className=" flex flex-row bg-blue-400 px-5 py-3 rounded-full  mx-6 mb-2"
                   >
                     <AntDesign name="edit" size={24} color="white" />
                     <Text className="text-white font-medium mx-4 text-xl text-center">
@@ -151,8 +151,8 @@ const EditNote = () => {
                   <TouchableOpacity
                     onPress={() =>
                       Alert.alert(
-                        "Delete Note",
-                        "Are you sure you want to delete this note?",
+                        "Delete Journal",
+                        "Are you sure you want to delete this Journal?",
                         [
                           {
                             text: "Cancel",
@@ -163,7 +163,7 @@ const EditNote = () => {
                         ]
                       )
                     }
-                    className="flex flex-row bg-red-500 px-5 py-3 rounded-full mx-6 mb-2"
+                    className="flex flex-row bg-pink-500 px-5 py-3 rounded-full mx-6 mb-2"
                   >
                     <AntDesign name="delete" size={24} color="white" />
                     <Text className="text-white font-medium mx-4 text-xl text-center">

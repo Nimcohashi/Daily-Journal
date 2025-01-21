@@ -73,7 +73,7 @@ const NewNote = () => {
   return (
     <SafeAreaView className="bg-white h-full">
       <ScrollView>
-        <Heading title="New note" onBackPress={() => router.back()} /> 
+        <Heading title="Journal 📝" onBackPress={() => router.back()} /> 
 
         {/* Note input section */}
         <View className="flex flex-col p-5">
@@ -82,14 +82,14 @@ const NewNote = () => {
               value={title}
               onChangeText={(text) => setTitle(text)}
               placeholder="Title...."
-              className="border border-yellow-400 px-4 py-3 text-lg rounded-md w-full my-2  mb-2"
+              className="border border-blue-400 px-4 py-3 text-lg rounded-md w-full my-2  mb-2"
             />
 
             <TextInput
               value={content}
               onChangeText={(text) => setContent(text)}
               placeholder="Content...."
-              className="border border-yellow-400 px-4 text-justify py-3 text-lg rounded-md w-full my-2 max-h-[30vh] overflow-auto mb-2"
+              className="border border-blue-400 px-4 text-justify py-3 text-lg rounded-md w-full my-2 max-h-[30vh] overflow-auto mb-2"
               multiline={true}
               numberOfLines={7}
               style={{ height: 200 }}
@@ -104,7 +104,7 @@ const NewNote = () => {
             ) : (
               <TouchableOpacity
                 onPress={handleSave} // Call handleSave function on button press
-                className="bg-yellow-400 px-4 py-3 rounded-full w-4/5 mb-2"
+                className="bg-blue-400 px-4 py-3 rounded-full w-4/5 mb-2"
               >
                 <Text className="text-white font-medium text-xl text-center">
                   Save

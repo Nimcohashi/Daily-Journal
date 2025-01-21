@@ -13,18 +13,18 @@ const GettingStarted = () => {
       <View className=" bg-white flex flex-col items-center justify-between h-screen py-5">
         {/* Display the logo image */}
         <Image
-          source={require("../../assets/notes.png")}
+          source={require("../../assets/download (3).png")}
           style={{ width: 300, height: 300 }}
           resizeMode="contain"
           className="mt-32"
         />
 
         {/* Display the main title */}
-        <Text className="text-4xl text-red-600 font-bold">My Notes</Text>
+        <Text className="text-4xl text-blue-600 font-bold">Journal</Text>
 
         {/* Display the welcome message */}
         <Text className="text-grey-600 text-2xl font-semibold">
-          Welcome to the My Notes
+          Welcome to the Journal
         </Text>
         
         {/* Display the login and create account buttons */}
@@ -34,15 +34,15 @@ const GettingStarted = () => {
               style={{
                 borderWidth: 1.5,
               }}
-              className="border border-yellow-500 px-4 py-3 rounded-full w-[85%] mb-2"
+              className="border border-blue-500 px-4 py-3 rounded-full w-[85%] mb-2"
             >
-              <Text className="text-yellow-500 font-medium text-xl text-center">
+              <Text className="text-blue-500 font-medium text-xl text-center">
                 Log In
               </Text>
             </TouchableOpacity>
           </Link>
           <Link href="/auth/register" asChild>
-            <TouchableOpacity className="bg-yellow-500 text-white px-4 py-3 rounded-full w-[85%] mb-10">
+            <TouchableOpacity className="bg-blue-500 text-white px-4 py-3 rounded-full w-[85%] mb-10">
               <Text className="text-white font-medium text-xl text-center">
                 Create Account
               </Text>

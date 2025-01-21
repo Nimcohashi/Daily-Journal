@@ -95,13 +95,13 @@ const Register = () => {
       <ScrollView>
         <View className=" bg-white flex flex-col min-h-[83vh] items-center h-screen">
           <Image
-            source={require("../../assets/notes.png")}
+            source={require("../../assets/download (3).png")}
             style={{ width: 150, height: 150 }}
             resizeMode="contain"
             className="mt-32"
           />
 
-          <Text className="text-4xl my-4 text-red-600 font-bold">My Notes</Text>
+          <Text className="text-4xl my-4 text-blue-600 font-bold">Journal 🗒 </Text>
 
           <Text className="text-grey-600 my-4 text-xl font-semibold">
             Create an Account
@@ -146,7 +146,7 @@ const Register = () => {
               ) : (
                 <TouchableOpacity
                   onPress={handleSubmit}
-                  className=" bg-yellow-500 px-4 py-3 rounded-full w-4/5 mb-2"
+                  className=" bg-blue-500 px-4 py-3 rounded-full w-4/5 mb-2"
                 >
                   <Text className="text-white font-medium text-xl text-center">
                     Register
